@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"prettier.printWidth": 60,
+		"editor.wordWrap": "on"
+	}
+}
