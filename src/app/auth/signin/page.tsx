@@ -5,9 +5,12 @@ import React from "react";
 
 const SigninPage = () => {
   return (
-    <div className="flex h-screen justify-center items-center">
+    <div className="flex flex-col h-screen justify-center items-center">
       <Login />
-      <Link href={"/auth/forgotPassword"}>
+      <Link
+        className="text-sky-600 hover:text-sky-700 "
+        href={"/auth/forgotPassword"}
+      >
         Forgot your password?
       </Link>
     </div>
