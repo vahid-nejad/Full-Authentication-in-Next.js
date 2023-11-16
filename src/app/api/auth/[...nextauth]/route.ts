@@ -7,6 +7,9 @@ import * as bcrypt from "bcrypt";
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
+  session: {
+    strategy: "jwt",
+  },
   providers: [
     CredentialsProvider({
       // The name to display on the sign in form (e.g. "Sign in with...")
@@ -38,28 +41,25 @@ export const authOptions: AuthOptions = {
           user.password
         );
         if (!isPasswordCorrect) {
-          // throw new Error(
-          //   "User name or password is incorrect."
-          // );
-          return null;
+          throw new Error(
+            "User name or password is incorrect."
+          );
         }
 
         if (!user.emailVerified) {
-          // throw new Error(
-          //   "Please Verify Your Email First."
-          // );
-          return null;
+          throw new Error(
+            "Please Verify Your Email First."
+          );
         }
-        console.log({ user });
 
         return user;
       },
     }),
 
-    // GoogleProvider({
-    //   clientId: process.env.GOOGLE_CLIENT_ID,
-    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    // }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID ?? "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
+    }),
   ],
   pages: {
     signIn: "/auth/signin",
@@ -71,7 +71,7 @@ export const authOptions: AuthOptions = {
       return { ...token, ...user };
     },
     async session({ token, session }) {
-      session.user = token;
+      session.user = token.user;
       console.log({ session });
 
       return session;

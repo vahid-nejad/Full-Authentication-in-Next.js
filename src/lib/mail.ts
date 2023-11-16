@@ -1,5 +1,4 @@
 import nodemailer from "nodemailer";
-import * as handlebars from "handlebars";
 
 export default async function sendMail(
   to: string,

@@ -2,18 +2,18 @@
 
 import React, { useState } from "react";
 
-import TogglePassword from "./TogglePassword";
 import LoginProviderButtons from "./LoginProviderButtons";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
+
 import { signIn } from "next-auth/react";
 import { z } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "./ui/use-toast";
+
 import { Loader2, LogIn } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import { Button, Input } from "@nextui-org/react";
 
 const FormSchema = z.object({
   email: z
@@ -54,11 +54,7 @@ const Login = ({ callbackUrl }: Props) => {
     console.log({ result });
     setSubmitting(false);
     if (!result?.ok) {
-      toast({
-        title: "Oops!",
-        description: result?.error,
-        variant: "destructive",
-      });
+      toast.success(result?.error);
       return;
     }
     router.push(callbackUrl ? callbackUrl : "/");
@@ -73,20 +69,14 @@ const Login = ({ callbackUrl }: Props) => {
           {...register("email")}
           label="User name"
           className="mb-5"
-          error={errors.email?.message}
+          errorMessage={errors.email?.message}
         />
         <Input
           {...register("password")}
           label="Password"
-          error={errors.password?.message}
+          errorMessage={errors.password?.message}
           type={showPass ? "text" : "password"}
-        >
-          <TogglePassword
-            className="absolute right-6 top-9"
-            setValue={setShowPass}
-            value={showPass}
-          />
-        </Input>
+        ></Input>
         <div className="flex items-center justify-center gap-2 border-b-2 p-2 border-gray-300">
           <Button
             type="submit"

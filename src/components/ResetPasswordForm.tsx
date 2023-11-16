@@ -8,10 +8,8 @@ import { useState, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import PasswordStrength from "./PasswordStrength";
-import TogglePassword from "./TogglePassword";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { toast } from "./ui/use-toast";
+import { toast } from "react-toastify";
+import { Button, Input } from "@nextui-org/react";
 
 const FormSchema = z
   .object({
@@ -66,19 +64,12 @@ const ResetPasswordForm = (props: Props) => {
         data.password
       );
       if (result)
-        toast({
-          title: "Successful",
-          description:
-            "Your Password Has Been Rest successfully!",
-          variant: "success",
-        });
+        toast.success(
+          "Your Password Has Been Rest successfully!"
+        );
       reset();
     } catch (error) {
-      toast({
-        title: "Oops!",
-        description: "Somthing went wrong!",
-        variant: "destructive",
-      });
+      toast.error("Somthing went wrong!");
       console.error(error);
     }
     setSubmitting(false);
@@ -91,23 +82,17 @@ const ResetPasswordForm = (props: Props) => {
       <Input
         {...register("password")}
         label="Password"
-        error={errors.password?.message}
+        errorMessage={errors.password?.message}
         type={showPass ? "text" : "password"}
         className="col-span-2"
-      >
-        <TogglePassword
-          className="absolute right-6 top-9"
-          setValue={setShowPass}
-          value={showPass}
-        />
-      </Input>
+      ></Input>
 
       <PasswordStrength passStrength={passStrength} />
 
       <Input
         {...register("confirmPassword")}
         label="Confirm Password"
-        error={errors.confirmPassword?.message}
+        errorMessage={errors.confirmPassword?.message}
         type={showPass ? "text" : "password"}
         className="col-span-2"
       />

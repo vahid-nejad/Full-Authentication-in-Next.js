@@ -1,7 +1,5 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { toast } from "@/components/ui/use-toast";
+import { Button, Input } from "@nextui-org/react";
 import { forgotPassword } from "@/lib/actions/auth";
 import { EnvelopeIcon } from "@heroicons/react/24/outline";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,6 +9,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
+import { toast } from "react-toastify";
 
 const FormSchema = z.object({
   email: z
@@ -36,19 +35,12 @@ const ForgotPasswordPage = () => {
     try {
       const result = await forgotPassword(data.email);
       if (result)
-        toast({
-          title: "Successful",
-          description:
-            "Reset password link is sent to your email!",
-          variant: "success",
-        });
+        toast.success(
+          "Reset password link is sent to your email!"
+        );
       reset();
     } catch (error) {
-      toast({
-        title: "Oops!",
-        description: "Somthing went wrong!",
-        variant: "destructive",
-      });
+      toast.error("Somthing went wrong!");
       console.error(error);
     }
     setSubmitting(false);
@@ -59,8 +51,8 @@ const ForgotPasswordPage = () => {
         <Input
           {...register("email")}
           label="Email"
-          icon={<EnvelopeIcon />}
-          error={errors.email?.message}
+          startContent={<EnvelopeIcon />}
+          errorMessage={errors.email?.message}
         ></Input>
         <Button type="submit" disabled={submitting}>
           {submitting ? (

@@ -9,16 +9,13 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
-import TogglePassword from "./TogglePassword";
 import { useEffect, useState } from "react";
 import { registerUser } from "@/lib/actions/auth";
 import { User } from "@prisma/client";
-import { toast } from "./ui/use-toast";
 import { passwordStrength } from "check-password-strength";
-import clsx from "clsx";
 import PasswordStrength from "./PasswordStrength";
+import { toast } from "react-toastify";
+import { Button, Input } from "@nextui-org/react";
 
 const FormSchema = z
   .object({
@@ -106,18 +103,10 @@ const Signup = (props: Props) => {
     try {
       const result = await registerUser(user as User);
       if (result)
-        toast({
-          title: "Successful",
-          description: "User resgistered successfully!",
-          variant: "success",
-        });
+        toast.success("User resgistered successfully!");
       reset();
     } catch (error) {
-      toast({
-        title: "Oops!",
-        description: "Somthing went wrong!",
-        variant: "destructive",
-      });
+      toast.error("Somthing went wrong!");
       console.error(error);
     }
     setSubmitting(false);
@@ -131,49 +120,43 @@ const Signup = (props: Props) => {
       <Input
         {...register("firstName")}
         label="First Name"
-        icon={<UserIcon />}
-        error={errors?.firstName?.message}
+        startContent={<UserIcon />}
+        errorMessage={errors?.firstName?.message}
       />
       <Input
         {...register("lastName")}
         label="Last Name"
-        icon={<UserIcon />}
-        error={errors.lastName?.message}
+        startContent={<UserIcon />}
+        errorMessage={errors.lastName?.message}
       />
       <Input
         {...register("email")}
         className="col-span-2 "
         label="Email"
-        icon={<EnvelopeIcon />}
-        error={errors.email?.message}
+        startContent={<EnvelopeIcon />}
+        errorMessage={errors.email?.message}
       />
       <Input
         {...register("phone")}
         className="col-span-2 "
         label="Phone Number"
-        icon={<PhoneIcon />}
-        error={errors.phone?.message}
+        startContent={<PhoneIcon />}
+        errorMessage={errors.phone?.message}
       />
       <Input
         {...register("password")}
         label="Password"
-        error={errors.password?.message}
+        startContent={errors.password?.message}
         type={showPass ? "text" : "password"}
         className="col-span-2"
-      >
-        <TogglePassword
-          className="absolute right-6 top-9"
-          setValue={setShowPass}
-          value={showPass}
-        />
-      </Input>
+      ></Input>
 
       <PasswordStrength passStrength={passStrength} />
 
       <Input
         {...register("confirmPassword")}
         label="Confirm Password"
-        error={errors.confirmPassword?.message}
+        errorMessage={errors.confirmPassword?.message}
         type={showPass ? "text" : "password"}
         className="col-span-2"
       />

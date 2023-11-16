@@ -3,7 +3,7 @@ import { prisma } from "./../prisma";
 
 import { User } from "@prisma/client";
 
-import sendMail from "../sendMail";
+import sendMail from "../mail";
 import { activationTemplate } from "@/templates/acitvation";
 import * as handlebars from "handlebars";
 import { signJwtAccessToken, verifyJwt } from "../jwt";

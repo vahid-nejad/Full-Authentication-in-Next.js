@@ -13,7 +13,9 @@ const SignInButton = () => {
     <div className="flex items-center ml-auto gap-2">
       {session && session.user ? (
         <>
-          <p>{session.user.email}</p>
+          <p>
+            {session.user.firstName} {session.user.lastName}
+          </p>
           <Link href={"/api/auth/signout"}>Sign Out</Link>
         </>
       ) : (

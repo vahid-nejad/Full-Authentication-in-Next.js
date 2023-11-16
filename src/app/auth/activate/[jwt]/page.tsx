@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import { activateUser } from "@/lib/actions/auth";
 
 interface Props {

@@ -1,5 +1,5 @@
+import { Button } from "@nextui-org/react";
 import React from "react";
-import { Button } from "./ui/button";
 
 const LoginProviderButtons = () => {
   return (
